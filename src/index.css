@@ -1,0 +1,284 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+  /* 色管理用の変数 */
+  --black-color: #333;
+  --white-color: #fff;
+  --primary-color: #0051e0;
+  --accent-color: #ffb22e;
+  --accent-color2: #478bff;
+}
+:root {
+  /* コンテンツ幅管理用の変数 */
+  --content-width-sm: 800px;
+  --content-width: 960px;
+  --content-width-lg: 1088px;
+}
+
+/* ---------- base ---------- */
+
+body {
+  color: var(--black-color);
+  font-size: 16px;
+  font-family: "Noto Sans JP", sans-serif;
+  line-height: 1.8;
+  background-color: var(--gray-color);
+}
+
+/* ---------- utility ---------- */
+
+@media screen and (min-width: 375px) {
+  .u_sm-dn {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .u_mid_dn {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .u_lg-dn {
+    display: none;
+  }
+}
+
+/* ---------- layout ---------- */
+.l_main {
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  color: var(--white-color);
+}
+
+.l_search-area {
+  background-color: var(--primary-color);
+  padding: 64px 24px 56px;
+  text-align: center;
+}
+
+.l_search-bar {
+  width: 100%;
+  padding: 0 16px;
+  margin: 0 auto;
+}
+
+/* 検索結果の表示領域 */
+.l_result-area {
+  background-color: var(--white-color);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  color: #292929;
+}
+
+/* ---------- module ---------- */
+
+/* ---------- top ---------- */
+.top_title {
+  margin: 0;
+  color: var(--white-color);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* ---------- SearchBar ---------- */
+
+.search-bar {
+  background-color: var(--white-color);
+  /* display: flex; */
+  align-items: stretch;
+  gap: 10px;
+  /* width: 100%; */
+  max-width: 520px;
+  margin: 0 auto;
+  color: #292929;
+  /* カーソル */
+  caret-color: #292929;
+  outline: none;
+  padding-left: 8px;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  /* border: 1px solid #dbe4f0; */
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #292929;
+  font-size: 16px;
+}
+
+.search-button {
+  padding: 0 24px;
+  border: none;
+  /* border-radius: 8px; */
+  background-color: var(--white-color);
+  color: var(--accent-color2);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-button span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.search-button:hover span {
+  transform: scale(1.2);
+}
+
+/* スマートフォン対応 */
+@media (max-width: 480px) {
+  .hero {
+    padding: 48px 16px 40px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .search-bar {
+    gap: 8px;
+  }
+
+  .search-bar input {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .search-bar button {
+    padding: 0 16px;
+    font-size: 14px;
+  }
+}
+
+/* ---------- SearchResult ---------- */
+.search-results {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.search-results h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  color: #292929;
+}
+
+.search-keyword {
+  margin-bottom: 24px;
+  color: #777777;
+  font-size: 14px;
+}
+
+/* 商品カードを並べる */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* 商品カード */
+.product-card {
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+}
+
+.product-card h3 {
+  margin: 0 0 8px;
+  color: #292929;
+  font-size: 18px;
+}
+
+.product-card p {
+  margin: 0;
+  color: #777777;
+  font-size: 14px;
+}
+
+/* 該当商品がない場合 */
+.no-results {
+  padding: 24px 0;
+  color: #777777;
+}
+
+/* スマートフォンでは1列 */
+@media (max-width: 520px) {
+  .results-area {
+    padding: 24px 16px;
+  }
+
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- productinfo ---------- */
+
+/* 商品情報画面全体 */
+.product-info {
+  width: 100%;
+  /* max-width: 420px; */
+  margin: 0 auto;
+  background-color: #f1eded;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.product-info_title {
+  font-size: 24px;
+  color: #292929;
+}
+
+/* 商品画像 */
+.product-info_image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: #e8e1d8;
+}
+
+.product-info_image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* 商品名 */
+.product-info_name {
+  margin: 0 0 12px;
+  color: #292929;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* 価格 */
+.product-info_price {
+  margin: 0 0 12px;
+  color: #333333;
+  font-size: 16px;
+}
+
+/* 商品説明 */
+.product-info_description {
+  margin: 0;
+  color: #444444;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* ---------- Footer ---------- */
