@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-const productImages = [];
+//const productImages = [];
 
 function ProductInfo() {
   //子コンポーネントでなくても受け取れる
