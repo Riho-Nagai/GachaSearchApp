@@ -15,7 +15,7 @@ function SearchResult({ searchQuery, products }: SearchResultProps) {
         <div className="product-list">
           {products.map((product) => (
             <article className="product-card" key={product.id}>
-              <Link to={`/productInfo`} state={product}>
+              <Link to={`/productInfo/${product.id}`}>
                 <h3>{product.name}</h3>
               </Link>
 

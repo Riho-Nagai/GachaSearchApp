@@ -1,21 +1,25 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Top from "./pages/Top";
 import ProductInfo from "./pages/ProductInfo";
+import ProductRegister from "./pages/ProductRegister";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 
 function App() {
   const location = useLocation();
 
-  // フッターを表示するページ
-  const showFooter = location.pathname === "/" || location.pathname === "*";
+  const showFooter =
+    location.pathname === "/" ||
+    location.pathname.startsWith("/productInfo/") ||
+    location.pathname === "/productRegister";
 
   return (
     <div className="app">
       <main>
         <Routes>
           <Route path="/" element={<Top />} />
-          <Route path="/productInfo" element={<ProductInfo />} />
+          <Route path="/productInfo/:id" element={<ProductInfo />} />
+          <Route path="/productRegister" element={<ProductRegister />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
