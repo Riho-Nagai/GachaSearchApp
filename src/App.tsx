@@ -4,6 +4,7 @@ import ProductInfo from "./pages/ProductInfo";
 import ProductRegister from "./pages/ProductRegister";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
+import ProductEdit from "./pages/ProductEdit";
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
           <Route path="/productInfo/:id" element={<ProductInfo />} />
           <Route path="/productRegister" element={<ProductRegister />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/productEdit/:id" element={<ProductEdit />} />
         </Routes>
       </main>
 

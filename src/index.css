@@ -302,4 +302,74 @@ body {
   line-height: 1.8;
 }
 
+/* 商品詳細：編集・削除ボタン */
+.product-info_actions {
+  display: flex;
+  gap: 12px;
+  margin: 30px 16px;
+}
+
+.product-info_actions button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.product-info_actions button:last-child {
+  background-color: #dc2626;
+}
+
+.product-info_actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 商品編集画面 */
+.product-edit {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  color: #292929;
+}
+
+.product-edit_title {
+  margin-bottom: 24px;
+}
+
+.product-edit_item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.product-edit_item input,
+.product-edit_item textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.product-edit button {
+  margin: 8px 8px 8px 0;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+}
+
+.product-edit_error,
+.product-info_error {
+  color: #dc2626;
+}
+
 /* ---------- Footer ---------- */
