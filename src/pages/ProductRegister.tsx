@@ -1,50 +1,61 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 
 function ProductRegister() {
   const navigate = useNavigate();
 
-  // 入力フォームの状態
+  // 入力項目
   const [name, setName] = useState("");
   const [series, setSeries] = useState("");
   const [price, setPrice] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
 
+  // 登録状態
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // 商品登録処理
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  // 登録ボタンを押したときの処理
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!name.trim() || !series.trim()) {
-      setError("商品名とシリーズ名を入力してください。");
-      return;
-    }
-
     setLoading(true);
-    setError("");
+    setErrorMessage("");
 
     try {
-      const { error } = await supabase.from("products").insert({
-        name: name.trim(),
-        series: series.trim(),
-        price: price === "" ? null : Number(price),
-        release_date: releaseDate,
-        description: description.trim() || null,
-      });
+      // Supabaseのproductsテーブルに登録
+      const { data, error } = await supabase
+        .from("products")
+        .insert([
+          {
+            name: name.trim(),
+            series: series.trim(),
+            price: price === "" ? null : Number(price),
+            release_date: releaseDate,
+            description: description.trim() || null,
+          },
+        ])
+        .select();
 
       if (error) {
         throw error;
       }
 
+      console.log("登録成功:", data);
+
       alert("商品を登録しました！");
+
+      // 登録完了後、Top画面へ戻る
       navigate("/");
-    } catch (err) {
-      console.error("商品登録エラー:", err);
-      setError("商品を登録できませんでした。");
+    } catch (error) {
+      console.error("商品登録エラー:", error);
+
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("商品を登録できませんでした。");
+      }
     } finally {
       setLoading(false);
     }
@@ -55,6 +66,7 @@ function ProductRegister() {
       <h1 className="product-register_title">商品登録</h1>
 
       <form onSubmit={handleSubmit}>
+        {/* 商品名 */}
         <div className="product-register_item">
           <label htmlFor="name">商品名 *</label>
           <input
@@ -67,6 +79,7 @@ function ProductRegister() {
           />
         </div>
 
+        {/* シリーズ名 */}
         <div className="product-register_item">
           <label htmlFor="series">シリーズ名 *</label>
           <input
@@ -79,6 +92,7 @@ function ProductRegister() {
           />
         </div>
 
+        {/* 価格 */}
         <div className="product-register_item">
           <label htmlFor="price">価格（円）</label>
           <input
@@ -91,6 +105,7 @@ function ProductRegister() {
           />
         </div>
 
+        {/* 発売日 */}
         <div className="product-register_item">
           <label htmlFor="releaseDate">発売日 *</label>
           <input
@@ -102,6 +117,7 @@ function ProductRegister() {
           />
         </div>
 
+        {/* 商品説明 */}
         <div className="product-register_item">
           <label htmlFor="description">商品説明</label>
           <textarea
@@ -113,13 +129,18 @@ function ProductRegister() {
           />
         </div>
 
-        {error && <p className="product-register_error">{error}</p>}
+        {/* エラーメッセージ */}
+        {errorMessage && (
+          <p className="product-register_error">{errorMessage}</p>
+        )}
 
+        {/* 登録ボタン */}
         <button type="submit" disabled={loading}>
           {loading ? "登録中..." : "商品を登録する"}
         </button>
       </form>
 
+      {/* 戻るボタン */}
       <button type="button" onClick={() => navigate("/")}>
         トップページに戻る
       </button>
