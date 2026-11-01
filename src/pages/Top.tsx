@@ -31,52 +31,53 @@ function Top() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => {
-    const query = searchQuery.trim();
+  // const handleSearch = async () => {
 
-    if (!query) {
-      alert("検索キーワードを入力してください");
-      return;
-    }
+  //   const query = searchQuery.trim();
 
-    setSubmittedQuery(query);
-    setError("");
-    setLoading(true);
+  //   if (!query) {
+  //     alert("検索キーワードを入力してください");
+  //     return;
+  //   }
 
-    try {
-      // Supabaseから商品情報を取得
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .order("id", { ascending: true });
+  //   setSubmittedQuery(query);
+  //   setError("");
+  //   setLoading(true);
 
-      if (error) {
-        throw error;
-      }
+  //   try {
+  //     // Supabaseから商品情報を取得
+  //     const { data, error } = await supabase
+  //       .from("products")
+  //       .select("*")
+  //       .order("id", { ascending: true });
 
-      // 検索キーワードを正規化
-      const normalizedQuery = normalizeSearchText(query);
+  //     if (error) {
+  //       throw error;
+  //     }
 
-      // 商品名・シリーズ名・説明文から検索
-      const filteredProducts = (data ?? []).filter((product) => {
-        const productText = normalizeSearchText(
-          `${product.name} ${product.series ?? ""} ${
-            product.description ?? ""
-          }`,
-        );
+  //     // 検索キーワードを正規化
+  //     const normalizedQuery = normalizeSearchText(query);
 
-        return productText.includes(normalizedQuery);
-      });
+  //     // 商品名・シリーズ名・説明文から検索
+  //     const filteredProducts = (data ?? []).filter((product) => {
+  //       const productText = normalizeSearchText(
+  //         `${product.name} ${product.series ?? ""} ${
+  //           product.description ?? ""
+  //         }`,
+  //       );
 
-      setProducts(filteredProducts);
-    } catch (err) {
-      console.error("商品情報取得エラー:", err);
-      setError("商品情報を取得できませんでした。");
-      setProducts([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //       return productText.includes(normalizedQuery);
+  //     });
+
+  //     setProducts(filteredProducts);
+  //   } catch (err) {
+  //     console.error("商品情報取得エラー:", err);
+  //     setError("商品情報を取得できませんでした。");
+  //     setProducts([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // return (
   //   <div className="l_main">
@@ -128,6 +129,57 @@ function Top() {
   //     </section>
   //   </div>
   // );
+
+  const handleSearch = async () => {
+    const query = searchQuery.trim();
+
+    if (!query) {
+      alert("検索キーワードを入力してください");
+      return;
+    }
+
+    setSubmittedQuery(query);
+    setError("");
+    setLoading(true);
+
+    try {
+      // Supabaseから商品情報をすべて取得
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) {
+        throw error;
+      }
+
+      console.log("Supabase取得データ:", data);
+
+      // 検索キーワードを正規化
+      const normalizedQuery = normalizeSearchText(query);
+
+      // 商品名・シリーズ名・説明文から検索
+      const filteredProducts = (data ?? []).filter((product) => {
+        const productText = normalizeSearchText(
+          `${product.name ?? ""} ${
+            product.series ?? ""
+          } ${product.description ?? ""}`,
+        );
+
+        return productText.includes(normalizedQuery);
+      });
+
+      console.log("検索結果:", filteredProducts);
+
+      setProducts(filteredProducts);
+    } catch (err) {
+      console.error("商品情報取得エラー:", err);
+      setError("商品情報を取得できませんでした。");
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="l_main">

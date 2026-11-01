@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import type { Product } from "./Top";
+import { Link } from "react-router-dom";
 
 type SearchResultProps = {
   searchQuery: string;
@@ -8,29 +8,34 @@ type SearchResultProps = {
 
 function SearchResult({ searchQuery, products }: SearchResultProps) {
   return (
-    <section className="search-results">
-      <h2>「{searchQuery}」の検索結果</h2>
+    <div className="search-results">
+      <h2>検索結果</h2>
 
-      {products.length > 0 ? (
+      <p className="search-keyword">
+        「{searchQuery}」の検索結果：{products.length}件
+      </p>
+
+      {products.length === 0 ? (
+        <p className="no-results">該当する商品が見つかりませんでした。</p>
+      ) : (
         <div className="product-list">
           {products.map((product) => (
-            <article className="product-card" key={product.id}>
+            <div className="product-card" key={product.id}>
               <Link to={`/productInfo/${product.id}`}>
                 <h3>{product.name}</h3>
               </Link>
 
-              <p>{product.series}</p>
+              <p>シリーズ：{product.series}</p>
               <p>
                 価格：
-                {product.price !== null ? `${product.price}円` : "未登録"}
+                {product.price !== null ? `${product.price}円` : "未設定"}
               </p>
-            </article>
+              <p>{product.description}</p>
+            </div>
           ))}
         </div>
-      ) : (
-        <p className="no-results">該当する商品が見つかりませんでした。</p>
       )}
-    </section>
+    </div>
   );
 }
 
